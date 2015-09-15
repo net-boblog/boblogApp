@@ -35,7 +35,7 @@
             android:layout_toRightOf="@id/view_tmp"
             android:text="用户登录"
             android:textColor="#FFF"
-            android:textSize="24sp"/>
+            android:textSize="18sp"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
