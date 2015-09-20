@@ -4,9 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import net.boblog.boblogapp.R;
@@ -15,6 +22,7 @@ import net.boblog.boblogapp.R;
  * Created by huang on 2015/9/12.
  */
 public class LoginActivity extends BaseActivity {
+    private ImageView iv_logo;
     private EditText et_username;
     private EditText et_password;
     private Button btn_login;
@@ -23,12 +31,39 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        iv_logo = (ImageView) findViewById(R.id.iv_login_logo);
         et_username = (EditText) findViewById(R.id.et_login_username);
         et_password = (EditText) findViewById(R.id.et_login_password);
         btn_login = (Button) findViewById(R.id.btn_login_login);
         TextChangeListener textChangeListener = new TextChangeListener();
         et_username.addTextChangedListener(textChangeListener);
         et_password.addTextChangedListener(textChangeListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        iv_logo.post(new Runnable() {
+            @Override
+            public void run() {
+                DisplayMetrics dm = new DisplayMetrics();
+                LoginActivity.this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+                int[] originalPos = new int[2];
+                iv_logo.getLocationOnScreen(originalPos);
+                TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, -(originalPos[1] * 0.5f), 0);
+                ScaleAnimation scaleAnimation = new ScaleAnimation(0.5f, 1f, 0.5f, 1f, Animation.RELATIVE_TO_SELF,
+                        0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                AnimationSet animationSet = new AnimationSet(true);
+                animationSet.setDuration(500);
+                animationSet.setInterpolator(new DecelerateInterpolator());
+                animationSet.setFillAfter(true);
+                animationSet.addAnimation(translateAnimation);
+                animationSet.addAnimation(scaleAnimation);
+                iv_logo.startAnimation(animationSet);
+//                iv_logo.animate().translationYBy(-(originalPos[1] * 0.5f)).scaleX(1.5f).scaleY(1.5f).setDuration(400)
+//                        .setInterpolator(new DecelerateInterpolator()).start();
+            }
+        });
     }
 
     public void onLogin(View view) {
