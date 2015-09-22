@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Light.NoTitleBar">
+        <!-- API 19 theme customizations can go here. -->
+        <item name="android:editTextBackground">@drawable/edittext</item>
+        <item name="android:windowAnimationStyle">@style/activityAnimation</item>
+    </style>
+
     <style name="activityAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/in_from_right</item>
         <item name="android:activityOpenExitAnimation">@anim/out_from_left</item>
