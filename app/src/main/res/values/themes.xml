@@ -3,7 +3,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Light.NoTitleBar">
-        <!-- API 19 theme customizations can go here. -->
         <item name="android:editTextBackground">@drawable/edittext</item>
         <item name="android:windowAnimationStyle">@style/activityAnimation</item>
     </style>

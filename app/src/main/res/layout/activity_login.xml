@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@drawable/bg"
     android:orientation="vertical">
 
@@ -9,28 +10,29 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar">
 
-        <com.mikepenz.iconics.view.IconicsTextView
+        <com.mikepenz.iconics.view.IconicsButton
             android:id="@+id/ic_back"
-            android:text="{faw-angle-left}"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/click_dark_bg"
+            android:gravity="center"
+            android:text="{gmd-chevron-left}"
             android:textColor="@android:color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:textSize="36sp"/>
+            android:textSize="36sp"
+            android:clickable="true"/>
         <View
             android:id="@+id/view_tmp"
             android:layout_width="1px"
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
+            android:gravity="center"
             android:layout_toRightOf="@id/ic_back"
             android:background="#55FFFFFF"/>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/view_tmp"
             android:text="用户登录"
@@ -118,7 +120,6 @@
             android:text="登陆"
             android:textColor="#fff"
             android:textSize="20dp"
-            android:enabled="false"
             android:clickable="true"
             android:onClick="onLogin"/>
     </LinearLayout>
@@ -132,10 +133,10 @@
         <TextView
             android:id="@+id/tv_login_register"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="10"
             android:layout_gravity="bottom"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:text="注册用户"
             android:textColor="@color/color_link_red"
             android:textSize="14sp"
@@ -146,15 +147,15 @@
             android:layout_height="20dp"
             android:layout_gravity="bottom"
             android:layout_toRightOf="@id/ic_back"
-            android:gravity="center_horizontal"
+            android:layout_marginBottom="12dp"
             android:background="@android:color/white"/>
         <TextView
             android:id="@+id/tv_login_recover_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="10"
             android:layout_gravity="bottom"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:text="找回密码"
             android:textColor="@color/color_link_red"
             android:textSize="14sp"
