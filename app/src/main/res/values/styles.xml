@@ -5,6 +5,7 @@
         <!-- API 19 theme customizations can go here. -->
         <item name="android:editTextBackground">@drawable/edittext</item>
         <item name="android:windowAnimationStyle">@style/activityAnimation</item>
+        <item name="android:textColorPrimaryInverse">@android:color/primary_text_light</item>
     </style>
 
     <style name="activityAnimation" parent="@android:style/Animation.Activity">

@@ -12,7 +12,6 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import net.boblog.boblogapp.R;
 
@@ -62,10 +61,20 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void onLogin(View view) {
-        boolean hasUsername = et_username.getText().length() > 0;
-        boolean hasPassword= et_password.getText().length() > 0;
-        if (!hasUsername || !hasPassword) {
-            Toast.makeText(this, "请输入用户名和密码", Toast.LENGTH_SHORT).show();
+        boolean hasError = false;
+
+        if (et_username.getText().length() == 0) {
+            et_username.setError("请输入用户名");
+            hasError = true;
+        }
+
+        if (et_password.getText().length() == 0) {
+            et_password.setError("请输入密码");
+            hasError = true;
+        }
+
+        if (hasError) {
+            return;
         } else {
             startActivity(new Intent(this, MainActivity.class));
         }

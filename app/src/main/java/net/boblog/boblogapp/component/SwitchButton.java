@@ -13,7 +13,6 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 
 import net.boblog.boblogapp.R;
 
@@ -25,9 +24,9 @@ public class SwitchButton extends View {
     /** 画笔*/
     private Paint paint ;
     /** 开关状态*/
-    private boolean toggleOn = false;
+    private boolean switchOn = false;
     /** 边框大小*/
-    private int borderWidth = 2;
+    private int borderWidth = 1;
     /** 垂直中心*/
     private float centerY;
     /** 按钮的开始和结束位置*/
@@ -38,22 +37,30 @@ public class SwitchButton extends View {
     private int spotSize ;
     /** 手柄X位置*/
     private float spotX;
-    /** 关闭时内部灰色带高度*/
-    private float offLineWidth;
-    /** */
+    /** 手柄滑动时内部圆角矩形radius*/
+    private float inRadius;
+    /** 手柄半径 */
     private float radius;
     /** 开启颜色*/
-    private int onColor = Color.parseColor("#4ebb7f");
+    private int onBackgroundColor = Color.parseColor("#45C01A");
     /** 关闭颜色*/
-    private int offBorderColor = Color.parseColor("#dadbda");
-    /** 灰色带颜色*/
-    private int offColor = Color.parseColor("#ffffff");
-    /** 手柄颜色*/
-    private int spotColor = Color.parseColor("#ffffff");
+    private int offBackgroundColor = Color.WHITE;
+    /** 禁用是背景颜色 */
+    private int disabledBackgroundColor = Color.parseColor("#f2f2f2");
+    /** 开启时手柄颜色*/
+    private int spotOnColor = Color.parseColor("#ffffff");
+    /** 开启时手柄颜色*/
+    private int spotOffColor = Color.parseColor("#dadbda");
     /** 边框颜色*/
-    private int borderColor = offBorderColor;
+    private int borderColor = spotOffColor;
+    /** 是否禁用 */
+    private boolean disabled = false;
+
+    private float density;
     /** */
     private RectF rect = new RectF();
+
+    private SwitchChangedListener switchChangedListener;
 
     public SwitchButton(Context context) {
         this(context, null);
@@ -70,24 +77,32 @@ public class SwitchButton extends View {
     }
 
     private void init(AttributeSet attrs) {
+        density = getResources().getDisplayMetrics().density;
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeCap(Paint.Cap.ROUND);
 
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.ToggleButton);
-        offBorderColor = typedArray.getColor(R.styleable.ToggleButton_offBorderColor, offBorderColor);
-        onColor = typedArray.getColor(R.styleable.ToggleButton_onColor, onColor);
-        spotColor = typedArray.getColor(R.styleable.ToggleButton_spotColor, spotColor);
-        offColor = typedArray.getColor(R.styleable.ToggleButton_offColor, offColor);
-        borderWidth = typedArray.getDimensionPixelSize(R.styleable.ToggleButton_borderWidth, borderWidth);
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SwitchButton);
+        onBackgroundColor = typedArray.getColor(R.styleable.SwitchButton_onBackgroundColor, onBackgroundColor);
+        offBackgroundColor = typedArray.getColor(R.styleable.SwitchButton_offBackgroundColor, offBackgroundColor);
+        disabledBackgroundColor = typedArray.getColor(R.styleable.SwitchButton_disabledBackgroundColor, disabledBackgroundColor);
+        spotOnColor = typedArray.getColor(R.styleable.SwitchButton_spotOnColor, spotOnColor);
+        spotOffColor = typedArray.getColor(R.styleable.SwitchButton_spotOffColor, spotOffColor);
+        borderColor = typedArray.getColor(R.styleable.SwitchButton_borderColor, borderColor);
+        borderWidth = typedArray.getDimensionPixelSize(R.styleable.SwitchButton_borderWidth, borderWidth);
+        switchOn = typedArray.getBoolean(R.styleable.SwitchButton_switchOn, switchOn);
+        disabled = typedArray.getBoolean(R.styleable.SwitchButton_disabled, disabled);
         typedArray.recycle();
-
-        borderColor = offBorderColor;
 
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                toggle();
+                if (!disabled) {
+                    toggle();
+                    if (switchChangedListener != null) {
+                        switchChangedListener.onSwitchChanged(SwitchButton.this, SwitchButton.this.switchOn);
+                    }
+                }
             }
         });
     }
@@ -98,17 +113,14 @@ public class SwitchButton extends View {
         final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-
         Resources r = Resources.getSystem();
         if(widthMode == MeasureSpec.UNSPECIFIED || widthMode == MeasureSpec.AT_MOST){
-            widthSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, r.getDisplayMetrics());
+            int widthSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, r.getDisplayMetrics());
             widthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY);
         }
 
-        if (heightMode == MeasureSpec.UNSPECIFIED || heightSize == MeasureSpec.AT_MOST){
-            heightSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, r.getDisplayMetrics());
+        if (heightMode == MeasureSpec.UNSPECIFIED || heightMode == MeasureSpec.AT_MOST){
+            int heightSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, r.getDisplayMetrics());
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY);
         }
 
@@ -116,8 +128,7 @@ public class SwitchButton extends View {
     }
 
     @Override
-    protected void onLayout(boolean changed, int left, int top, int right,
-                            int bottom) {
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
 
         final int width = getWidth();
@@ -130,15 +141,15 @@ public class SwitchButton extends View {
         spotMinX = startX + borderWidth;
         spotMaxX = endX - borderWidth;
         spotSize = height - 4 * borderWidth;
-        spotX = toggleOn ? spotMaxX : spotMinX;
-        offLineWidth = spotSize;
+        spotX = switchOn ? spotMaxX : spotMinX;
+        inRadius = radius - 2 * borderWidth;
     }
 
     @Override
     protected Parcelable onSaveInstanceState() {
         Parcelable superState =  super.onSaveInstanceState();
         SavedState ss = new SavedState(superState);
-        ss.toggleOn = this.toggleOn;
+        ss.toggleOn = this.switchOn;
         return ss;
     }
 
@@ -149,66 +160,50 @@ public class SwitchButton extends View {
         } else {
             SavedState ss = (SavedState) state;
             super.onRestoreInstanceState(ss.getSuperState());
-            this.toggleOn = ss.toggleOn;
+            this.switchOn = ss.toggleOn;
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
-        //
         rect.set(0, 0, getWidth(), getHeight());
-        paint.setColor(borderColor);
+        if (disabled) {
+            paint.setColor(disabledBackgroundColor);
+        } else if (switchOn) {
+            paint.setColor(onBackgroundColor);
+        } else {
+            paint.setColor(borderColor);
+        }
         canvas.drawRoundRect(rect, radius, radius, paint); //画最外圆角矩形
 
-        if(offLineWidth > 0){
-            final float cy = offLineWidth * 0.5f;
-            rect.set(spotX - cy, centerY - cy, endX + cy, centerY + cy);
-            if (toggleOn) {
-                paint.setColor(spotColor);
+        if(inRadius > 0 && spotX != spotMaxX){
+            rect.set(spotX - inRadius, centerY - inRadius, endX + inRadius, centerY + inRadius);
+            if (disabled) {
+                paint.setColor(disabledBackgroundColor);
             } else {
-                paint.setColor(offColor);
+                paint.setColor(spotOnColor);
             }
-            canvas.drawRoundRect(rect, cy, cy, paint); //画内层圆角矩形
+            canvas.drawRoundRect(rect, inRadius, inRadius, paint); //画内层圆角矩形
         }
 
-        rect.set(spotX - 1 - radius, centerY - radius, spotX + 1.1f + radius, centerY + radius);
-        paint.setColor(borderColor);
-        canvas.drawRoundRect(rect, radius, radius, paint); // 画外层滑动柄
-
-        final float spotR = spotSize * 0.5f;
+        final float spotR = spotSize * 0.5f - density * 2;//手柄与外框隔2dp
         rect.set(spotX - spotR, centerY - spotR, spotX + spotR, centerY + spotR);
-        paint.setColor(spotColor);
+        if (switchOn) {
+            paint.setColor(spotOnColor);
+        } else {
+            paint.setColor(spotOffColor);
+        }
         canvas.drawRoundRect(rect, spotR, spotR, paint); // 画内层滑动柄
     }
 
     private void startAnimation(final float start, final float end) {
         ValueAnimator animator = ValueAnimator.ofFloat(start, end);
-        animator.setInterpolator(new AccelerateInterpolator());
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (float) animation.getAnimatedValue();
                 spotX = spotMinX + (spotMaxX - spotMinX) * value;
-                offLineWidth = (1 - value) * spotSize;
-
-                final int fr = Color.red(onColor);
-                final int fg = Color.green(onColor);
-                final int fb = Color.blue(onColor);
-
-                final int tr = Color.red(offBorderColor);
-                final int tg = Color.green(offBorderColor);
-                final int tb = Color.blue(offBorderColor);
-
-                int sr = (int)(tr + (fr - tr) * value);
-                int sg = (int)(tg + (fg - tg) * value);
-                int sb = (int)(tb + (fb - tb) * value);
-
-                sr = clamp(sr, 0, 255);
-                sg = clamp(sg, 0, 255);
-                sb = clamp(sb, 0, 255);
-
-                borderColor = Color.rgb(sr, sg, sb);
-
+                inRadius = (1 - value) * spotSize * 0.5f;
                 postInvalidate();
 
             }
@@ -216,17 +211,17 @@ public class SwitchButton extends View {
         animator.start();
     }
 
-    private int clamp(int value, int low, int high) {
+    private float clamp(float value, float low, float high) {
         return Math.min(Math.max(value, low), high);
     }
 
     public void toggle() {
-        toggle(!toggleOn);
+        toggle(!switchOn);
     }
 
     public void toggle(boolean toggle) {
-        toggleOn = toggle;
-        if (toggleOn) {
+        switchOn = toggle;
+        if (switchOn) {
             startAnimation(0, 1);
         } else {
             startAnimation(1, 0);
@@ -239,6 +234,24 @@ public class SwitchButton extends View {
 
     public void toggleOff() {
         toggle(false);
+    }
+
+    public void disable() {
+        if (!disabled) {
+            disabled = true;
+            postInvalidate();
+        }
+    }
+
+    public void enable() {
+        if (disabled) {
+            disabled = false;
+            postInvalidate();
+        }
+    }
+
+    public void setSwitchChangedListener(SwitchChangedListener listener) {
+        switchChangedListener = listener;
     }
 
     public static class SavedState extends BaseSavedState {
@@ -257,7 +270,7 @@ public class SwitchButton extends View {
         public String toString() {
             return "SwitchButton.SavedState{"
                     + Integer.toHexString(System.identityHashCode(this))
-                    + " toggleOn=" + toggleOn + "}";
+                    + " switchOn=" + toggleOn + "}";
         }
 
         @Override
@@ -265,5 +278,9 @@ public class SwitchButton extends View {
             super.writeToParcel(dest, flags);
             dest.writeInt(toggleOn ? 1 : 0);
         }
+    }
+
+    public interface SwitchChangedListener {
+        public void onSwitchChanged(SwitchButton switchButton, boolean isChecked);
     }
 }

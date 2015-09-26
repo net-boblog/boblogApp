@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SwitchButton">
+        <attr name="borderWidth" format="dimension"/>
+        <attr name="onBackgroundColor" format="reference|color"/>
+        <attr name="offBackgroundColor" format="reference|color"/>
+        <attr name="disabledBackgroundColor" format="reference|color"/>
+        <attr name="spotOnColor" format="reference|color"/>
+        <attr name="spotOffColor" format="reference|color"/>
+        <attr name="borderColor" format="reference|color"/>
+        <attr name="switchOn" format="reference|boolean"/>
+        <attr name="disabled" format="reference|boolean"/>
+    </declare-styleable>
+</resources>

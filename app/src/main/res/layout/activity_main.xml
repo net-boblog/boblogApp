@@ -50,7 +50,7 @@
             android:background="@drawable/click_dark_bg"
             android:text="{gmd-more-vert}"
             android:textColor="@android:color/white"
-            android:textSize="24sp"/>
+            android:textSize="28sp"/>
     </RelativeLayout>
     
     <LinearLayout
@@ -58,8 +58,166 @@
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:background="#fff"></LinearLayout>
+        android:orientation="horizontal"
+        android:background="#fff">
+        <RelativeLayout
+            android:id="@+id/re_weixin"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="3dp" >
+
+            <com.mikepenz.iconics.view.IconicsTextView
+                android:id="@+id/ib_weixin"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/color_top_bar"
+                android:textSize="28sp"
+                android:text="{gmd-local-library}" />
+
+            <TextView
+                android:id="@+id/tv_weixin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ib_weixin"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="3dp"
+                android:text="阅读"
+                android:textColor="@color/color_top_bar"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/unread_msg_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:background="@drawable/round_button"
+                android:gravity="center"
+                android:text="7"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/re_find"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="3dp" >
+
+            <com.mikepenz.iconics.view.IconicsTextView
+                android:id="@+id/ib_find"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_centerHorizontal="true"
+                android:textSize="28sp"
+                android:textColor="#9A9A9A"
+                android:text="{gmd-favorite}" />
+
+            <TextView
+                android:id="@+id/tv_find"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ib_find"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="3dp"
+                android:text="订阅"
+                android:textColor="#9A9A9A"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/round_tab_bg"
+            android:clickable="true"
+            android:onClick="onClickAddTab">
+            <com.mikepenz.iconics.view.IconicsTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="{gmd-add}"
+                android:textSize="36sp"
+                android:textColor="@color/color_btn_normal"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/re_contact_list"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="3dp" >
+
+            <com.mikepenz.iconics.view.IconicsTextView
+                android:id="@+id/ib_contact_list"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_centerHorizontal="true"
+                android:textSize="28sp"
+                android:textColor="#9A9A9A"
+                android:text="{gmd-search}"/>
+
+            <TextView
+                android:id="@+id/tv_contact_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ib_contact_list"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="3dp"
+                android:text="发现"
+                android:textColor="#9A9A9A"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/unread_address_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:background="@drawable/round_button"
+                android:gravity="center"
+                android:text="7"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/re_profile"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="3dp"
+            android:clickable="true"
+            android:onClick="onClickSettingTab">
+
+            <com.mikepenz.iconics.view.IconicsTextView
+                android:id="@+id/ib_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_centerHorizontal="true"
+                android:textSize="28sp"
+                android:textColor="#9A9A9A"
+                android:text="{gmd-perm-identity}" />
+
+            <TextView
+                android:id="@+id/tv_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ib_profile"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="3dp"
+                android:text="我"
+                android:textColor="#9A9A9A"
+                android:textSize="12sp" />
+        </RelativeLayout>
+    </LinearLayout>
 
     <View
         android:id="@+id/view_main_bottom_border"
@@ -78,9 +236,9 @@
         android:orientation="vertical"
         android:background="@color/color_bg">
         <net.boblog.boblogapp.component.SwitchButton
-            android:layout_width="64dp"
-            android:layout_height="30dp"
-            toggle:offColor="#dadbda">
-        </net.boblog.boblogapp.component.SwitchButton>
+            android:layout_width="48dp"
+            android:layout_height="24dp"
+            toggle:switchOn="true"
+            toggle:borderWidth="1px"/>
     </LinearLayout>
 </RelativeLayout>
