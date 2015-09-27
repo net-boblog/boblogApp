@@ -2,26 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:toggle="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_top_bar"
-    android:fitsSystemWindows="true">
-    <RelativeLayout
+    android:layout_height="match_parent">
+    <net.boblog.boblogapp.component.TopBarLayout
         android:id="@+id/main_titlebar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:layout_alignParentTop="true"
         android:background="@color/color_top_bar">
 
-        <com.mikepenz.iconics.view.IconicsButton
+        <net.boblog.boblogapp.component.TopbarButton
             android:id="@+id/ic_back"
             android:text="{gmd-chevron-left}"
             android:textColor="@android:color/white"
             android:layout_width="48dp"
             android:layout_height="match_parent"
-            android:background="@drawable/click_dark_bg"
             android:gravity="center"
             android:textSize="36sp"
-            android:clickable="true"
             android:onClick="back"/>
         <View
             android:id="@+id/view_tmp"
@@ -41,17 +37,16 @@
             android:text="Boblog"
             android:textColor="#FFF"
             android:textSize="18sp"/>
-        <com.mikepenz.iconics.view.IconicsButton
+        <net.boblog.boblogapp.component.TopbarButton
             android:id="@+id/btn_main_menu"
             android:layout_width="48dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:gravity="center"
-            android:background="@drawable/click_dark_bg"
             android:text="{gmd-more-vert}"
             android:textColor="@android:color/white"
             android:textSize="28sp"/>
-    </RelativeLayout>
+    </net.boblog.boblogapp.component.TopBarLayout>
     
     <LinearLayout
         android:id="@+id/ll_main_bottom"

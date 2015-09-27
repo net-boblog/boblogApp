@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:toggle="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@color/color_top_bar"
     android:orientation="vertical">
-    <RelativeLayout
+    <net.boblog.boblogapp.component.TopBarLayout
         android:id="@+id/main_titlebar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:layout_alignParentTop="true"
         android:background="@color/color_top_bar">
 
-        <com.mikepenz.iconics.view.IconicsButton
+        <net.boblog.boblogapp.component.TopbarButton
             android:id="@+id/ic_back"
             android:text="{gmd-chevron-left}"
             android:textColor="@android:color/white"
             android:layout_width="48dp"
             android:layout_height="match_parent"
-            android:background="@drawable/click_dark_bg"
+            android:background="@android:color/transparent"
             android:gravity="center"
             android:textSize="36sp"
-            android:clickable="true"
             android:onClick="back"/>
         <View
             android:id="@+id/view_tmp"
@@ -47,8 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:gravity="center"
@@ -56,7 +52,8 @@
             android:textSize="16sp"
             android:textColor="@android:color/white"
             android:background="@drawable/round_white_border"/>
-        <com.mikepenz.iconics.view.IconicsTextView
+        <net.boblog.boblogapp.component.TopbarButton
+            android:id="@+id/btn_edit_settings"
             android:layout_width="48dp"
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
@@ -65,9 +62,8 @@
             android:text="{gmd-settings}"
             android:textSize="24sp"
             android:textColor="@android:color/white"
-            android:clickable="true"
             android:background="@drawable/click_dark_bg"/>
-    </RelativeLayout>
+    </net.boblog.boblogapp.component.TopBarLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"

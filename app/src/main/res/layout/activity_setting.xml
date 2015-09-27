@@ -3,26 +3,23 @@
     xmlns:toggle="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@color/color_top_bar"
     android:orientation="vertical">
-    <RelativeLayout
+    <net.boblog.boblogapp.component.TopBarLayout
         android:id="@+id/main_titlebar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:layout_alignParentTop="true"
         android:background="@color/color_top_bar">
 
-        <com.mikepenz.iconics.view.IconicsButton
+        <net.boblog.boblogapp.component.TopbarButton
             android:id="@+id/ic_back"
             android:text="{gmd-chevron-left}"
             android:textColor="@android:color/white"
             android:layout_width="48dp"
             android:layout_height="match_parent"
-            android:background="@drawable/click_dark_bg"
+            android:background="@android:color/transparent"
             android:gravity="center"
             android:textSize="36sp"
-            android:clickable="true"
             android:onClick="back"/>
         <View
             android:id="@+id/view_tmp"
@@ -42,7 +39,7 @@
             android:text="设置"
             android:textColor="#FFF"
             android:textSize="18sp"/>
-    </RelativeLayout>
+    </net.boblog.boblogapp.component.TopBarLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -4,7 +4,10 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+
+import net.boblog.boblogapp.utils.UiTools;
 
 /**
  * Created by dave on 15-9-22.
@@ -30,31 +33,26 @@ public class TopBarLayout extends RelativeLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            super.onMeasure(widthMeasureSpec, heightMeasureSpec + UiTools.getStatusBarHeight(getContext()));
+//        } else {
+//            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//        }
+//    }
+
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    public void setLayoutParams(ViewGroup.LayoutParams params) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec + getStatusBarHeight());
-        } else {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            params.height = params.height + UiTools.getStatusBarHeight(getContext());
         }
+        super.setLayoutParams(params);
     }
 
     private void setStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            setPadding(getPaddingLeft(), getPaddingTop() + getStatusBarHeight(), getPaddingRight(), getPaddingBottom());
+            setPadding(getPaddingLeft(), getPaddingTop() + UiTools.getStatusBarHeight(getContext()), getPaddingRight(), getPaddingBottom());
         }
-    }
-
-    /**
-     * 获取顶部状态栏高度
-     * @return
-     */
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
     }
 }
