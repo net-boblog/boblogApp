@@ -83,7 +83,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/color_border_gray" />
+                android:background="#E0E0E0" />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp">

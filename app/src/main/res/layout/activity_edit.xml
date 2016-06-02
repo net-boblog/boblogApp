@@ -64,63 +64,56 @@
             android:textColor="@android:color/white"
             android:background="@drawable/click_dark_bg"/>
     </net.boblog.boblogapp.component.TopBarLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:background="@android:color/white">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical|left"
-            android:paddingLeft="70dp"
-            android:background="@android:color/white"
-            android:singleLine="true"
-            android:hint="标题"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="标题："
-            android:textSize="20dp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_alignParentBottom="true"
-            android:background="@color/color_border_gray"/>
-    </RelativeLayout>
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:fillViewport="true"
         android:background="@android:color/white">
-        <EditText
-            android:id="@+id/edit_postBody"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
-            android:gravity="left|top"
-            android:paddingTop="4dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:background="@android:color/white"
-            android:hint="文章正文"/>
-        <RelativeLayout
-            android:id="@+id/edit_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="#F5F5F5"
-            android:visibility="gone">
-            <com.mikepenz.iconics.view.IconicsTextView
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:text="{gmd-add}"
-                android:textSize="36sp"/>
-            <View
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/color_border_gray"/>
-        </RelativeLayout>
-    </LinearLayout>
+                android:layout_height="48dp"
+                android:background="@android:color/white">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical|left"
+                    android:paddingLeft="70dp"
+                    android:paddingRight="10dp"
+                    android:background="@android:color/transparent"
+                    android:singleLine="true"
+                    android:hint="标题"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:text="标题："
+                    android:textSize="20dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/color_border_gray"/>
+            </RelativeLayout>
+            <net.boblog.boblogapp.component.LinedEditText
+                android:id="@+id/edit_postBody"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="left|top"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@android:color/white"
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="20dp"
+                android:textCursorDrawable="@drawable/cursor_red"
+                android:hint="文章正文"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -45,7 +45,8 @@
             android:gravity="center"
             android:text="{gmd-more-vert}"
             android:textColor="@android:color/white"
-            android:textSize="28sp"/>
+            android:textSize="28sp"
+            android:onClick="onClickShowMenu"/>
     </net.boblog.boblogapp.component.TopBarLayout>
     
     <LinearLayout
@@ -231,8 +232,8 @@
         android:orientation="vertical"
         android:background="@color/color_bg">
         <net.boblog.boblogapp.component.SwitchButton
-            android:layout_width="48dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             toggle:switchOn="true"
             toggle:borderWidth="1px"/>
     </LinearLayout>

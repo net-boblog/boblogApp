@@ -3,7 +3,10 @@ package net.boblog.boblogapp.component;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.mikepenz.iconics.view.IconicsButton;
@@ -29,7 +32,10 @@ public class TopbarButton extends IconicsButton {
     }
 
     protected void init() {
-        setBackgroundColor(Color.TRANSPARENT);
+        StateListDrawable sld = new StateListDrawable();
+        sld.addState(new int[]{android.R.attr.state_pressed}, new ColorDrawable(Color.parseColor("#55000000")));
+        sld.addState(new int[]{}, new ColorDrawable(Color.TRANSPARENT));
+        setBackground(sld);
     }
 
     @Override
@@ -44,13 +50,23 @@ public class TopbarButton extends IconicsButton {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        Log.d(this.getClass().getCanonicalName(), event.toString());
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             setTextColor(Color.parseColor("#55FFFFFF"));
-            return true;
-        } else if (event.getAction() == MotionEvent.ACTION_UP){
+        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+            if (event.getX() > 0 && event.getX() < getWidth()
+                    && event.getY() > 0 && event.getY() < getHeight()) {
+                setTextColor(Color.parseColor("#55FFFFFF"));
+            } else {
+                setTextColor(Color.parseColor("#FFFFFF"));
+            }
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
             setTextColor(Color.parseColor("#FFFFFF"));
-            return callOnClick();
+            if (event.getX() > 0 && event.getX() < getWidth()
+                    && event.getY() > 0 && event.getY() < getHeight()) {
+                return callOnClick();
+            }
         }
-        return false;
+        return super.onTouchEvent(event);
     }
 }

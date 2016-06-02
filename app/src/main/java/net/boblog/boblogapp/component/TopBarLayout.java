@@ -1,10 +1,8 @@
 package net.boblog.boblogapp.component;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import net.boblog.boblogapp.utils.UiTools;
@@ -28,27 +26,24 @@ public class TopBarLayout extends RelativeLayout {
         setStatusBar();
     }
 
-    @TargetApi(21)
-    public TopBarLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
+//            int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec) + UiTools.getStatusBarHeight(getContext());
+//            heightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSpecSize, heightSpecMode);
+            heightMeasureSpec += UiTools.getStatusBarHeight(getContext());
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
 //    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//    public void setLayoutParams(ViewGroup.LayoutParams params) {
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//            super.onMeasure(widthMeasureSpec, heightMeasureSpec + UiTools.getStatusBarHeight(getContext()));
-//        } else {
-//            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//            params.height = params.height + UiTools.getStatusBarHeight(getContext());
 //        }
+//        super.setLayoutParams(params);
 //    }
-
-    @Override
-    public void setLayoutParams(ViewGroup.LayoutParams params) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            params.height = params.height + UiTools.getStatusBarHeight(getContext());
-        }
-        super.setLayoutParams(params);
-    }
 
     private void setStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {

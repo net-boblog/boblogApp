@@ -115,29 +115,36 @@ public class SwitchButton extends View {
 
         Resources r = Resources.getSystem();
         if(widthMode == MeasureSpec.UNSPECIFIED || widthMode == MeasureSpec.AT_MOST){
-            int widthSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, r.getDisplayMetrics());
-            widthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY);
+            int nWidthSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, r.getDisplayMetrics());
+            widthMeasureSpec = MeasureSpec.makeMeasureSpec(nWidthSize, MeasureSpec.EXACTLY);
         }
 
         if (heightMode == MeasureSpec.UNSPECIFIED || heightMode == MeasureSpec.AT_MOST){
-            int heightSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, r.getDisplayMetrics());
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY);
+            int nHeightSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 26, r.getDisplayMetrics());
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(nHeightSize, MeasureSpec.EXACTLY);
         }
-
+        final int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        final int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+        if (heightSize >= widthSize - 10) {
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize - 10, MeasureSpec.EXACTLY);
+        }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
+        final int paddingL = getPaddingLeft();
+        final int paddingR = getPaddingRight();
+        final int paddingT = getPaddingTop();
+        final int paddingB = getPaddingBottom();
+        final int width = getWidth() - paddingL - paddingR;
+        final int height = getHeight() - paddingT - paddingB;
 
-        final int width = getWidth();
-        final int height = getHeight();
-
-        radius = Math.min(width, height) * 0.5f;
-        centerY = radius;
-        startX = radius;
-        endX = width - radius;
+        radius = height * 0.5f;
+        centerY = radius + paddingT;
+        startX = radius + paddingL;
+        endX = width + paddingL - radius;
         spotMinX = startX + borderWidth;
         spotMaxX = endX - borderWidth;
         spotSize = height - 4 * borderWidth;
@@ -166,22 +173,23 @@ public class SwitchButton extends View {
 
     @Override
     public void draw(Canvas canvas) {
-        rect.set(0, 0, getWidth(), getHeight());
-        if (disabled) {
-            paint.setColor(disabledBackgroundColor);
-        } else if (switchOn) {
+        super.draw(canvas);
+        rect.set(getPaddingLeft(), getPaddingTop(), getWidth(), getHeight());
+        if (switchOn) {
             paint.setColor(onBackgroundColor);
         } else {
             paint.setColor(borderColor);
+        }
+        if (disabled) {
+            paint.setAlpha(80);
         }
         canvas.drawRoundRect(rect, radius, radius, paint); //画最外圆角矩形
 
         if(inRadius > 0 && spotX != spotMaxX){
             rect.set(spotX - inRadius, centerY - inRadius, endX + inRadius, centerY + inRadius);
+            paint.setColor(spotOnColor);
             if (disabled) {
-                paint.setColor(disabledBackgroundColor);
-            } else {
-                paint.setColor(spotOnColor);
+                paint.setAlpha(80);
             }
             canvas.drawRoundRect(rect, inRadius, inRadius, paint); //画内层圆角矩形
         }
@@ -209,10 +217,6 @@ public class SwitchButton extends View {
             }
         });
         animator.start();
-    }
-
-    private float clamp(float value, float low, float high) {
-        return Math.min(Math.max(value, low), high);
     }
 
     public void toggle() {
