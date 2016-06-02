@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "net.boblog.boblogapp"
-        minSdkVersion 22
-        targetSdkVersion 23
+        minSdkVersion 19 // android 4.4
+        targetSdkVersion 23 // android 6.0
         versionCode 1
         versionName "1.0"
     }
