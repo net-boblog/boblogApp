@@ -34,12 +34,12 @@ public class UiTools {
     }
 
     /**
-     * 将颜色的R、G、B各分量乘以rate值，进行暗化或量化
+     * 将颜色的R、G、B各分量乘以rate值，进行暗化或亮化
      * @param color
      * @param rate
      * @return
      */
-    public static int brightenColorBy(int color, float rate) {
+    public static int brightenColor(int color, float rate) {
         int alpha = 0xFF << 24;
         int red = (color & 0x00FF0000) >> 16;
         int green = (color & 0x0000FF00) >> 8;

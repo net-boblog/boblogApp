@@ -28,12 +28,12 @@ public class TopBarLayout extends RelativeLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//            int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
-//            int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec) + UiTools.getStatusBarHeight(getContext());
-//            heightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSpecSize, heightSpecMode);
-            heightMeasureSpec += UiTools.getStatusBarHeight(getContext());
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+////            int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
+////            int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec) + UiTools.getStatusBarHeight(getContext());
+////            heightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSpecSize, heightSpecMode);
+//            heightMeasureSpec += UiTools.getStatusBarHeight(getContext());
+//        }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -46,8 +46,8 @@ public class TopBarLayout extends RelativeLayout {
 //    }
 
     private void setStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            setPadding(getPaddingLeft(), getPaddingTop() + UiTools.getStatusBarHeight(getContext()), getPaddingRight(), getPaddingBottom());
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            setPadding(getPaddingLeft(), getPaddingTop() + UiTools.getStatusBarHeight(getContext()), getPaddingRight(), getPaddingBottom());
+//        }
     }
 }
